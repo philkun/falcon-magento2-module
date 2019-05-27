@@ -118,23 +118,23 @@ class ProductRepository implements ProductRepositoryInterface
 
         $productLinks = $productObject->getProductLinks();
 
-        $productDetail =  $this->productDetailFactory->create(
-            [
-                ProductDetailInterface::ID_FIELD_KEY => (int)$productObject->getId(),
-                ProductDetailInterface::SKU_FIELD_KEY => (string)$productObject->getSku(),
-                ProductDetailInterface::IS_SALABLE_FIELD_KEY => (int)$productObject->getIsSalable(),
-                ProductDetailInterface::NAME_FIELD_KEY => (string)$productObject->getName(),
-                ProductDetailInterface::TYPE_ID_FIELD_KEY => (string)$productObject->getTypeId(),
-                ProductDetailInterface::IMAGE_FIELD_KEY => $mainImage,
-                ProductDetailInterface::IMAGE_RESIZED_FIELD_KEY => $imageResized,
-                ProductDetailInterface::URL_PATH_FIELD_KEY => $this->urlPathProvider->getProductUrlPath($productObject),
-                ProductDetailInterface::MEDIA_GALLERY_FIELD_KEY => $mediaGalleryInfo,
-                ProductDetailInterface::TIER_PRICES_FIELD_KEY => $tierPrices,
-                ProductDetailInterface::PRICE_FIELD_KEY => $priceObject,
-                ProductDetailInterface::STOCK_FIELD_KEY => $this->productStockProvider->getStockData($productObject),
-                ProductDetailInterface::PRODUCT_LINKS_FIELD_KEY => $productLinks
-            ]
-        );
+        $productDetail =  $this->productDetailFactory->create();
+        $productDetail->setId((int)$productObject->getId())
+            ->setSku((string)$productObject->getSku())
+            ->setDescription((string)$productObject->getDescription())
+            ->setIsSalable((int)$productObject->getIsSalable())
+            ->setTypeId((string)$productObject->getTypeId())
+            ->setName((string)$productObject->getName())
+            ->setUrlPath($this->urlPathProvider->getProductUrlPath($productObject))
+            ->setImage($mainImage)
+            ->setImageResized($imageResized)
+            ->setStock($this->productStockProvider->getStockData($productObject))
+            ->setMediaGallerySizes($mediaGalleryInfo)
+            ->setTierPrices($tierPrices)
+            ->setPrice($priceObject)
+            ->setProductLinks($productLinks);
+
+        $productDetail->setCustomAttributes($productObject->getCustomAttributes());
 
         $this->productMapper->map($productObject, $productDetail);
 

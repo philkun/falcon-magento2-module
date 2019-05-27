@@ -8,6 +8,7 @@ use Deity\CatalogApi\Api\Data\ProductInterfaceFactory;
 use Deity\CatalogApi\Api\ProductConvertInterface;
 use Deity\CatalogApi\Api\ProductImageProviderInterface;
 use Deity\CatalogApi\Api\ProductPriceProviderInterface;
+use Deity\CatalogApi\Model\ProductMapperInterface;
 use Deity\CatalogApi\Model\ProductUrlPathProviderInterface;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Model\Product;
@@ -27,11 +28,6 @@ class ProductConvert implements ProductConvertInterface
     private $productFactory;
 
     /**
-     * @var ProductInterface
-     */
-    private $currentProductObject;
-
-    /**
      * @var ProductUrlPathProviderInterface
      */
     private $urlPathProvider;
@@ -47,18 +43,26 @@ class ProductConvert implements ProductConvertInterface
     private $priceProvider;
 
     /**
+     * @var ProductMapperInterface
+     */
+    private $productMapper;
+
+    /**
      * ProductConvert constructor.
      * @param ProductInterfaceFactory $productFactory
      * @param ProductUrlPathProviderInterface $urlPathProvider
      * @param ProductPriceProviderInterface $priceProvider
      * @param ProductImageProviderInterface $imageProvider
+     * @param ProductMapperInterface $productMapper
      */
     public function __construct(
         ProductInterfaceFactory $productFactory,
         ProductUrlPathProviderInterface $urlPathProvider,
         ProductPriceProviderInterface $priceProvider,
-        ProductImageProviderInterface $imageProvider
+        ProductImageProviderInterface $imageProvider,
+        ProductMapperInterface $productMapper
     ) {
+        $this->productMapper = $productMapper;
         $this->urlPathProvider = $urlPathProvider;
         $this->priceProvider = $priceProvider;
         $this->imageProvider = $imageProvider;
@@ -75,8 +79,10 @@ class ProductConvert implements ProductConvertInterface
         $this->currentProductObject = $product;
 
         $deityProduct = $this->productFactory->create();
-        $deityProduct->setName($product->getName());
-        $deityProduct->setSku($product->getSku());
+        $deityProduct->setId($product->getId());
+        $deityProduct->setName((string)$product->getName());
+        $deityProduct->setTypeId((string)$product->getTypeId());
+        $deityProduct->setSku((string)$product->getSku());
         $deityProduct->setUrlPath(
             $this->urlPathProvider->getProductUrlPath($product, (string)$product->getCategoryId())
         );
@@ -92,15 +98,13 @@ class ProductConvert implements ProductConvertInterface
         );
         Profiler::stop('__PRODUCT_LISTING_CONVERT_PRICE_CALC__');
 
+        $deityProduct->setCustomAttributes(
+            $product->getCustomAttributes()
+        );
+
+        $this->productMapper->map($product, $deityProduct);
+
         Profiler::stop('__PRODUCT_LISTING_CONVERT__');
         return $deityProduct;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getCurrentProduct(): ProductInterface
-    {
-        return $this->currentProductObject;
     }
 }

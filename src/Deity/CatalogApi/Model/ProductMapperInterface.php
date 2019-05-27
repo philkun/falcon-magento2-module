@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Deity\CatalogApi\Model;
 
-use Deity\CatalogApi\Api\Data\ProductDetailInterface;
 use Magento\Catalog\Api\Data\ProductInterface;
+use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Interface ProductMapperInterface
@@ -17,7 +17,7 @@ interface ProductMapperInterface
      * Perform mapping of magento product to falcon product
      *
      * @param ProductInterface $product
-     * @param ProductDetailInterface $falconProduct
+     * @param ExtensibleDataInterface $falconProduct
      */
-    public function map(ProductInterface $product, ProductDetailInterface $falconProduct): void;
+    public function map(ProductInterface $product, ExtensibleDataInterface $falconProduct): void;
 }

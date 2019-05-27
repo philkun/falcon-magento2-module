@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Deity\CatalogApi\Test\Api;
 
 use Deity\CatalogApi\Api\Data\ProductDetailInterface;
+use Deity\CatalogApi\Api\Data\ProductInterface;
 use Deity\CatalogApi\Api\Data\ProductPriceInterface;
-use Deity\MagentoApi\Helper\Product;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
@@ -96,6 +96,12 @@ class ProductApiTest extends WebapiAbstract
         );
 
         $this->assertEquals(
+            'Description with <b>html tag</b>',
+            $productData[ProductDetailInterface::DESCRIPTION_FIELD_KEY],
+            'Product description should match'
+        );
+
+        $this->assertEquals(
             'simple',
             $productData[ProductDetailInterface::TYPE_ID_FIELD_KEY],
             'Product type id should match'
@@ -117,6 +123,21 @@ class ProductApiTest extends WebapiAbstract
             5,
             count($productData[ProductDetailInterface::TIER_PRICES_FIELD_KEY]),
             'Product should contain complete set of tier price information'
+        );
+    }
+
+    /**
+     * @magentoApiDataFixture ../../../../app/code/Deity/CatalogApi/Test/_files/categories_with_filters.php
+     */
+    public function testCustomAttributesReturned()
+    {
+        $productData = $this->getProductData('simple-1');
+
+        $this->assertNotEmpty($productData[ProductInterface::CUSTOM_ATTRIBUTES]);
+
+        $customAttributes = $productData[ProductInterface::CUSTOM_ATTRIBUTES];
+        $this->assertTrue(
+            in_array('filterable_attribute', array_column($customAttributes, 'attribute_code'))
         );
     }
 }

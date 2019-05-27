@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Deity\ConfigurableProduct\Model;
 
-use Deity\CatalogApi\Api\Data\ProductDetailInterface;
 use Deity\CatalogApi\Model\ProductMapperInterface;
 use Magento\Catalog\Api\Data\ProductExtension;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
 use Magento\CatalogInventory\Api\Data\StockStatusInterface;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
+use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Class ConfigurableOptionsMapper
@@ -37,9 +37,9 @@ class ConfigurableOptionsMapper implements ProductMapperInterface
      * Perform mapping of magento product to falcon product
      *
      * @param ProductInterface $product
-     * @param ProductDetailInterface $falconProduct
+     * @param ExtensibleDataInterface $falconProduct
      */
-    public function map(ProductInterface $product, ProductDetailInterface $falconProduct): void
+    public function map(ProductInterface $product, ExtensibleDataInterface $falconProduct): void
     {
         if ($product->getTypeId() != Configurable::TYPE_CODE) {
             return;

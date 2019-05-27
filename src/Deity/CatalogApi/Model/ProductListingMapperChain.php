@@ -8,11 +8,11 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 use Magento\Framework\Exception\LocalizedException;
 
 /**
- * Class ProductMapperChain
+ * Class ProductListingMapperChain
  *
  * @package Deity\CatalogApi\Model
  */
-class ProductMapperChain implements ProductMapperInterface
+class ProductListingMapperChain implements ProductMapperInterface
 {
 
     /**

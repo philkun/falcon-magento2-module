@@ -18,8 +18,10 @@ use PHPUnit\Framework\TestCase;
 class ConfigurableOptionsMapperTest extends TestCase
 {
 
-    /** @var \Magento\Framework\ObjectManagerInterface */
-    protected $objectManager;
+    /**
+     * @var \Magento\Framework\ObjectManagerInterface
+     */
+    private $objectManager;
 
     /**
      * @var ProductRepositoryInterface

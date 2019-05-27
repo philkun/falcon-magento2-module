@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Deity\Sales\Model\Order\Item;
 
+use Deity\CatalogApi\Api\ProductImageProviderInterface;
 use Magento\Catalog\Api\Data\ProductExtensionInterface;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Directory\Model\Currency;
@@ -18,17 +19,27 @@ use Magento\Sales\Api\Data\OrderItemInterface;
  */
 class ReadHandler implements ExtensionInterface
 {
-    /** @var ExtensionAttributesFactory */
+    /**
+     * @var ExtensionAttributesFactory
+     */
     private $extensionAttributesFactory;
+
+    /**
+     * @var ProductImageProviderInterface
+     */
+    private $productImageProvider;
 
     /**
      * ReadHandler constructor.
      *
      * @param ExtensionAttributesFactory $extensionAttributesFactory
+     * @param ProductImageProviderInterface $productImageProvider
      */
     public function __construct(
-        ExtensionAttributesFactory $extensionAttributesFactory
+        ExtensionAttributesFactory $extensionAttributesFactory,
+        ProductImageProviderInterface $productImageProvider
     ) {
+        $this->productImageProvider = $productImageProvider;
         $this->extensionAttributesFactory = $extensionAttributesFactory;
     }
 
@@ -66,14 +77,12 @@ class ReadHandler implements ExtensionInterface
         /** @var array|null $options */
         $options = $entity->getProductOptionByCode('attributes_info');
 
-        /** @var ProductExtensionInterface $productAttributes */
-        $productAttributes = $product->getExtensionAttributes();
+        $thumbnailUrl = (string)$this->productImageProvider->getProductImageTypeUrl($product, 'product_list_thumbnail');
 
         $extensionAttributes = $this->getOrderItemExtensionAttribute($entity);
-        $extensionAttributes->setThumbnailUrl($productAttributes->getThumbnailUrl());
+        $extensionAttributes->setThumbnailUrl($thumbnailUrl);
         $extensionAttributes->setUrlKey($product->getUrlKey());
         $extensionAttributes->setLink($product->getProductUrl());
-        $extensionAttributes->setDisplayPrice($productAttributes->getCatalogDisplayPrice());
         $extensionAttributes->setRowTotalInclTax($entity->getRowTotalInclTax());
         $extensionAttributes->setCurrency($currency->getCurrencySymbol() ?: $currency->getCode());
         $extensionAttributes->setOptions($options ? json_encode($options) : null);
