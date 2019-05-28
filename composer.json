@@ -2,7 +2,7 @@
     "name": "deity/falcon-magento",
     "description": "Deity Magento API",
     "type": "magento2-module",
-    "version": "4.0.2",
+    "version": "5.0.0",
     "license": [
         "OSL-3.0"
     ],
