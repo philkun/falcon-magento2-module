@@ -1,7 +1,12 @@
 **Note:** This is a cumulative changelog that outlines all of the changes to all magento modules in Deity [src/Deity](./src/Deity) namespace.
 
 Versions marked with a number and date (e.g. v0.1.0 (2018-10-05)) are already released and available via packagist. Versions without a date are not released yet.
-
+## v5.0.0 (2019-05-28)
+ - Added search API endpoints. `falcon/catalog-search` and `falcon/catalog-search/autocomplete` [#36](https://github.com/deity-io/falcon-magento2-development/issues/36)
+ - Introduced new endpoint to get product detail information `falcon/products/:sku` [#97](https://github.com/deity-io/falcon-magento2-development/issues/97)
+ - Refactored Configurable Product Data provider also within the context of new API [#97](https://github.com/deity-io/falcon-magento2-development/issues/97)
+ - Fixed the issue with zero cart total when removing items from the cart [#103](https://github.com/deity-io/falcon-magento2-development/issues/103)
+ - Introduced `custom-attributes` field to product listing and product detail API [#102](https://github.com/deity-io/falcon-magento2-development/issues/102)
 ## v4.0.2 (2019-04-12)
  - Fixed the issue with price filters [#95](https://github.com/deity-io/falcon-magento2-development/issues/95)
 ## v4.0.1 (2019-04-11)
