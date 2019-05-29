@@ -6,4 +6,7 @@
     <type name="Magento\Quote\Api\CartItemRepositoryInterface">
         <plugin name="deity_quote_item_repository" type="Deity\Quote\Plugin\Model\Cart\ItemRepository" />
     </type>
+    <type name="Magento\Quote\Api\CartRepositoryInterface">
+        <plugin name="deity_quote_repository" type="Deity\Quote\Plugin\Model\QuoteRepository" />
+    </type>
 </config>

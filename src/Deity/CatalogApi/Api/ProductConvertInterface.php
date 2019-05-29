@@ -20,11 +20,4 @@ interface ProductConvertInterface
      * @return array
      */
     public function convert(\Magento\Catalog\Model\Product $product): DeityProductInterface;
-
-    /**
-     * Get current product
-     *
-     * @return ProductInterface
-     */
-    public function getCurrentProduct(): ProductInterface;
 }

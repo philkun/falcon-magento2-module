@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Deity\CatalogApi\Test\Api;
 
+use Deity\CatalogApi\Api\Data\ProductInterface;
+use Deity\CatalogApi\Api\Data\ProductSearchResultsInterface;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
@@ -122,6 +124,32 @@ class CategoryProductListTest extends WebapiAbstract
         $filterableOption = array_pop($filterableOption);
 
         $this->assertEquals(2, count($filterableOption['options']), 'Two filter option is expected');
+    }
+
+    /**
+     * @magentoApiDataFixture ../../../../app/code/Deity/CatalogApi/Test/_files/categories_with_filters.php
+     */
+    public function testCustomAttributesReturnedWithProductData()
+    {
+        $categoryId = 4;
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => str_replace(':categoryId', $categoryId, self::RESOURCE_PATH),
+                'httpMethod' => \Magento\Framework\Webapi\Rest\Request::HTTP_METHOD_GET,
+            ]
+        ];
+        $response = $this->_webApiCall($serviceInfo);
+
+        $this->assertNotEmpty($response[ProductSearchResultsInterface::KEY_ITEMS]);
+
+        $productListData = array_pop($response[ProductSearchResultsInterface::KEY_ITEMS]);
+
+        $this->assertNotEmpty($productListData[ProductInterface::CUSTOM_ATTRIBUTES]);
+
+        $customAttributes = $productListData[ProductInterface::CUSTOM_ATTRIBUTES];
+        $this->assertTrue(
+            in_array('filterable_attribute', array_column($customAttributes, 'attribute_code'))
+        );
     }
 
     /**

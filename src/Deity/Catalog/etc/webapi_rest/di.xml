@@ -1,9 +1,28 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <type name="Deity\CatalogApi\Api\ProductConvertInterface">
-        <plugin name="url_key_field" type="Deity\Catalog\Plugin\ProductConvertPluginExample" sortOrder="10" />
+    <type name="Deity\Catalog\Model\Product\FilterProductCustomAttribute">
+        <arguments>
+            <argument name="blackList" xsi:type="array">
+                <item name="url_key" xsi:type="string">url_key</item>
+                <item name="category_ids" xsi:type="string">category_ids</item>
+                <item name="special_price" xsi:type="string">special_price</item>
+                <item name="special_from_date" xsi:type="string">special_from_date</item>
+                <item name="minimal_price" xsi:type="string">minimal_price</item>
+                <item name="tax_class_id" xsi:type="string">tax_class_id</item>
+                <item name="msrp_display_actual_price_type" xsi:type="string">msrp_display_actual_price_type</item>
+                <item name="required_options" xsi:type="string">required_options</item>
+                <item name="has_options" xsi:type="string">has_options</item>
+                <item name="image" xsi:type="string">image</item>
+                <item name="small_image" xsi:type="string">small_image</item>
+                <item name="thumbnail" xsi:type="string">thumbnail</item>
+                <item name="options_container" xsi:type="string">options_container</item>
+                <item name="description" xsi:type="string">description</item>
+            </argument>
+        </arguments>
     </type>
-    <type name="Magento\Catalog\Model\Product">
-        <plugin name="deity_product_plugin" type="Deity\Catalog\Plugin\Model\Product" sortOrder="10" />
+    <type name="Deity\Catalog\Model\ProductConvert">
+        <arguments>
+            <argument name="productMapper" xsi:type="object">Deity\CatalogApi\Model\ProductListingMapperChain</argument>
+        </arguments>
     </type>
 </config>
