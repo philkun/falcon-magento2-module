@@ -4,7 +4,6 @@
         <arguments>
             <argument name="blackList" xsi:type="array">
                 <item name="url_key" xsi:type="string">url_key</item>
-                <item name="category_ids" xsi:type="string">category_ids</item>
                 <item name="special_price" xsi:type="string">special_price</item>
                 <item name="special_from_date" xsi:type="string">special_from_date</item>
                 <item name="minimal_price" xsi:type="string">minimal_price</item>
