@@ -1,6 +1,8 @@
 **Note:** This is a cumulative changelog that outlines all of the changes to all magento modules in Deity [src/Deity](./src/Deity) namespace.
 
 Versions marked with a number and date (e.g. v0.1.0 (2018-10-05)) are already released and available via packagist. Versions without a date are not released yet.
+## v5.0.1 (2019-06-03)
+ - Removed `category_ids` from the blacklist of attributes for Product API.
 ## v5.0.0 (2019-05-29)
  - Added search API endpoints. `falcon/catalog-search` and `falcon/catalog-search/autocomplete` [#36](https://github.com/deity-io/falcon-magento2-development/issues/36)
  - Introduced new endpoint to get product detail information `falcon/products/:sku` [#97](https://github.com/deity-io/falcon-magento2-development/issues/97)
