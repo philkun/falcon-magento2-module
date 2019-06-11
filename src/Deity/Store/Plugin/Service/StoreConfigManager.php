@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Deity\Store\Plugin\Service;
 
-use Deity\Base\Model\Config;
 use Magento\Customer\Model\AccountManagement;
 use Magento\Directory\Helper\Data;
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -38,7 +37,6 @@ class StoreConfigManager
     private $extensionConfigData = [
         'min_password_length' => AccountManagement::XML_PATH_MINIMUM_PASSWORD_LENGTH,
         'min_password_char_class' => AccountManagement::XML_PATH_REQUIRED_CHARACTER_CLASSES_NUMBER,
-        'api_version' => Config::DEITY_API_VERSION_CONFIG_PATH,
         'customer_token_lifetime' => 'oauth/access_token_lifetime/customer',
         'admin_token_lifetime' => 'oauth/access_token_lifetime/admin'
     ];

@@ -28,7 +28,6 @@ class StoreConfigManagerTest extends WebapiAbstract
             'optional_post_codes',
             'min_password_length',
             'min_password_char_class',
-            'api_version',
             'customer_token_lifetime',
             'admin_token_lifetime'
         ];
