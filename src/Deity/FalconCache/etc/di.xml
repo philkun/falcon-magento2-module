@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Deity\FalconCacheApi\Model\FalconApiAdapterInterface" type="Deity\FalconCache\Model\FalconApiAdapter" />
+    <preference for="Deity\FalconCacheApi\Model\CacheManagementInterface" type="Deity\FalconCache\Model\CacheManagement" />
+    <preference for="Deity\FalconCacheApi\Model\ConfigProviderInterface" type="Deity\FalconCache\Model\ConfigProvider" />
+    <preference for="Deity\FalconCacheApi\Model\CacheTagMapperInterface" type="Deity\FalconCache\Model\CacheTagMapper" />
+
+    <type name="Magento\Eav\Model\Entity\AbstractEntity">
+        <plugin name="clean_falcon_cache" type="Deity\FalconCache\Plugin\FlushCacheByTags" sortOrder="20" />
+    </type>
+</config>

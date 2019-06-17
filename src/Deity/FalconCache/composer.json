@@ -1,0 +1,20 @@
+{
+    "name": "deity/falcon-magento-falcon-cache",
+    "description": "Deity Magento Falcon Cache module",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "require": {
+        "magento/framework": "*"
+    },
+    "license": [
+        "OSL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Deity\\FalconCache\\": ""
+        }
+    }
+}

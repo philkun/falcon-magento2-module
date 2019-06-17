@@ -17,7 +17,7 @@ use Magento\Store\Model\StoreManagerInterface;
 class FalconConfigProvider implements FalconConfigProviderInterface
 {
 
-    const DEITY_API_VERSION_CONFIG_PATH = 'deity/general/api_version';
+    const DEITY_API_VERSION_CONFIG_PATH = 'falcon/general/api_version';
 
     /**
      * @var ConfigInterfaceFactory
