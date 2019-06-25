@@ -19,6 +19,8 @@ class FalconConfigProvider implements FalconConfigProviderInterface
 
     const DEITY_API_VERSION_CONFIG_PATH = 'falcon/general/api_version';
 
+    const DEITY_FALCON_FRONTEND_URL = 'falcon/frontend/url';
+
     /**
      * @var ConfigInterfaceFactory
      */

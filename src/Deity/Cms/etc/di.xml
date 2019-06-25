@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Deity\CmsApi\Model\GetBlockByIdentifierInterface" type="Deity\Cms\Model\GetBlockByIdentifier" />
+    <preference for="Deity\CmsApi\Api\GetStaticBlockDataInterface" type="Deity\Cms\Model\GetStaticBlockData" />
+    <preference for="Deity\CmsApi\Api\Data\PageInterface" type="Deity\Cms\Model\Data\Page" />
+    <preference for="Deity\CmsApi\Api\Data\BlockInterface" type="Deity\Cms\Model\Data\Block" />
+    <preference for="Deity\CmsApi\Api\GetStaticPageDataInterface" type="Deity\Cms\Model\GetStaticPageData" />
+</config>

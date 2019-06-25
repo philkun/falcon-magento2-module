@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="falcon" translate="label" type="text" sortOrder="105" showInDefault="1" showInWebsite="0" showInStore="0">
+            <label>Falcon</label>
+            <tab>service</tab>
+            <resource>Deity_Falcon::config</resource>
+            <group id="frontend" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Url configuration</label>
+                <field id="url" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Falcon frontend url</label>
+                    <comment>Url format should be: https://falcon.com</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
+

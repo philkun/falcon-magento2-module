@@ -1,0 +1,23 @@
+{
+    "name": "deity/falcon-magento-cms",
+    "description": "Deity Magento Cms",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "require": {
+        "magento/framework": "*",
+        "magento/module-cms" : "*",
+        "deity/falcon-magento-cms-api" : "*",
+        "php": "^7.0"
+    },
+    "license": [
+        "OSL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Deity\\Cms\\": ""
+        }
+    }
+}
