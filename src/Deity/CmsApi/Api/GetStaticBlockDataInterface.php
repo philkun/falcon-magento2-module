@@ -16,7 +16,7 @@ interface GetStaticBlockDataInterface
      * Get content of the static block
      *
      * @param string $identifier
-     * @return BlockInterface
+     * @return \Deity\CmsApi\Api\Data\BlockInterface
      */
     public function execute(string $identifier): BlockInterface;
 }

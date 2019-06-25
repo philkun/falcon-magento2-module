@@ -62,7 +62,7 @@ class GetStaticBlockData implements GetStaticBlockDataInterface
      * Get content of the static block
      *
      * @param string $identifier
-     * @return BlockInterface
+     * @return \Deity\CmsApi\Api\Data\BlockInterface
      * @throws NoSuchEntityException
      */
     public function execute(string $identifier): BlockInterface
