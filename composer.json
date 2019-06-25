@@ -2,7 +2,7 @@
     "name": "deity/falcon-magento",
     "description": "Deity Magento API",
     "type": "magento2-module",
-    "version": "5.0.1",
+    "version": "5.1.0",
     "license": [
         "OSL-3.0"
     ],
@@ -18,6 +18,8 @@
             "src/Deity/CatalogSearchApi/registration.php",
             "src/Deity/Checkout/registration.php",
             "src/Deity/CheckoutApi/registration.php",
+            "src/Deity/Cms/registration.php",
+            "src/Deity/CmsApi/registration.php",
             "src/Deity/ConfigurableProduct/registration.php",
             "src/Deity/Customer/registration.php",
             "src/Deity/CustomerApi/registration.php",
@@ -48,6 +50,8 @@
             "Deity\\CatalogSearchApi\\": "src/Deity/CatalogSearchApi",
             "Deity\\Checkout\\": "src/Deity/Checkout",
             "Deity\\CheckoutApi\\": "src/Deity/CheckoutApi",
+            "Deity\\Cms\\": "src/Deity/Cms",
+            "Deity\\CmsApi\\": "src/Deity/CmsApi",
             "Deity\\ConfigurableProduct\\": "src/Deity/ConfigurableProduct",
             "Deity\\Customer\\": "src/Deity/Customer",
             "Deity\\CustomerApi\\": "src/Deity/CustomerApi",
