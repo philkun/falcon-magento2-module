@@ -13,6 +13,7 @@ use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\CatalogInventory\Helper\Stock;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Registry;
 
 /**
@@ -22,6 +23,8 @@ use Magento\Framework\Registry;
  */
 class CategoryProductList implements CategoryProductListInterface
 {
+
+    const FALCON_DEFAULT_PAGE_SIZE = 20;
 
     /**
      * @var ProductSearchResultsInterfaceFactory
@@ -61,6 +64,11 @@ class CategoryProductList implements CategoryProductListInterface
     private $registry;
 
     /**
+     * @var SearchCriteriaBuilder
+     */
+    private $searchBuilder;
+    
+    /**
      * CategoryProductList constructor.
      * @param ProductSearchResultsInterfaceFactory $productSearchResultFactory
      * @param ProductConvertInterface $convert
@@ -68,6 +76,7 @@ class CategoryProductList implements CategoryProductListInterface
      * @param Resolver $layerResolver
      * @param ProductFilterProviderInterface $productFilterProvider
      * @param Registry $registry
+     * @param SearchCriteriaBuilder $searchBuilder
      * @param CollectionProcessorInterface $collectionProcessor
      */
     public function __construct(
@@ -77,8 +86,10 @@ class CategoryProductList implements CategoryProductListInterface
         Resolver $layerResolver,
         ProductFilterProviderInterface $productFilterProvider,
         Registry $registry,
+        SearchCriteriaBuilder $searchBuilder,
         CollectionProcessorInterface $collectionProcessor
     ) {
+        $this->searchBuilder = $searchBuilder;
         $this->registry = $registry;
         $this->stockHelper = $stockHelper;
         $this->collectionProcessor = $collectionProcessor;
@@ -100,9 +111,16 @@ class CategoryProductList implements CategoryProductListInterface
 
         $this->registry->register('current_category', $this->catalogLayer->getCurrentCategory());
 
-        if ($searchCriteria !== null) {
-            $this->collectionProcessor->process($searchCriteria, $this->getProductCollection());
+        if ($searchCriteria === null) {
+            $searchCriteria = $this->searchBuilder
+                ->setCurrentPage(1)
+                ->setPageSize(self::FALCON_DEFAULT_PAGE_SIZE)
+                ->create();
+        } elseif ($searchCriteria->getPageSize() == 0) {
+            $searchCriteria->setCurrentPage(1)->setPageSize(self::FALCON_DEFAULT_PAGE_SIZE);
         }
+
+        $this->collectionProcessor->process($searchCriteria, $this->getProductCollection());
 
         $responseProducts = [];
         foreach ($this->getProductCollection() as $productObject) {
