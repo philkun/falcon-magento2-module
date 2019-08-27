@@ -7,6 +7,11 @@ use Magento\Framework\App\Cache\Type\FrontendPool;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class TypeTest
+ *
+ * @package Deity\FalconCache\Model\Cache
+ */
 class TypeTest extends TestCase
 {
     /**

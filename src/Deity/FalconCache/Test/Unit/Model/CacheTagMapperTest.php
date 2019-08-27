@@ -6,6 +6,11 @@ use Deity\FalconCacheApi\Model\CacheTagMapperInterface;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class CacheTagMapperTest
+ *
+ * @package Deity\FalconCache\Model
+ */
 class CacheTagMapperTest extends TestCase
 {
 
@@ -76,7 +81,7 @@ class CacheTagMapperTest extends TestCase
         foreach ($tagsReturnedArray as $tagReturned) {
             $match = false;
             $cacheTag = \key($tagReturned);
-            foreach($tagsExpectedArray as $tagExpected) {
+            foreach ($tagsExpectedArray as $tagExpected) {
                 if (isset($tagExpected[$cacheTag]) && $tagReturned[$cacheTag] === $tagExpected[$cacheTag]) {
                     $match = true;
                     break;

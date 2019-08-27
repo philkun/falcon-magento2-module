@@ -38,7 +38,6 @@ class CacheManagement implements CacheManagementInterface
         $this->apiAdapter = $apiAdapter;
     }
 
-
     /**
      * Remove all magento entries in Falcon Cache
      *

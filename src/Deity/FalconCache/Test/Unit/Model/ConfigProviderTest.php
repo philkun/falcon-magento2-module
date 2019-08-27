@@ -7,6 +7,11 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class ConfigProviderTest
+ *
+ * @package Deity\FalconCache\Model
+ */
 class ConfigProviderTest extends TestCase
 {
 

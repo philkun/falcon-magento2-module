@@ -12,6 +12,11 @@ use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class FalconApiAdapterTest
+ *
+ * @package Deity\FalconCache\Test\Unit\Model
+ */
 class FalconApiAdapterTest extends TestCase
 {
     /**
@@ -39,7 +44,6 @@ class FalconApiAdapterTest extends TestCase
      */
     private $configProvider;
 
-
     public function setUp()
     {
         $this->curl = $this->createMock(Curl::class);
@@ -56,7 +60,8 @@ class FalconApiAdapterTest extends TestCase
         $this->objectManager = new ObjectManager($this);
 
         $this->falconApiAdapter = $this->objectManager->getObject(
-            FalconApiAdapter::class, [
+            FalconApiAdapter::class,
+            [
                 'json' => $this->jsonSerializer,
                 'clientFactory' => $clientFactory,
                 'configProvider' => $this->configProvider
@@ -138,7 +143,6 @@ class FalconApiAdapterTest extends TestCase
             ->method('getFalconApiCacheUrl')
             ->will($this->returnValue('some-url'));
 
-        $errorMessage = 'Error occurred message';
         $this->curl
             ->expects($this->any())
             ->method('getStatus')

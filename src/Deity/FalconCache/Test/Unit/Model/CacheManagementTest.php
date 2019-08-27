@@ -8,6 +8,11 @@ use Deity\FalconCache\Model\FalconApiAdapter;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class CacheManagementTest
+ *
+ * @package Deity\FalconCache\Test\Unit\Model
+ */
 class CacheManagementTest extends TestCase
 {
     /**
