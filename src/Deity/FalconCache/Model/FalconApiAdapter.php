@@ -70,7 +70,6 @@ class FalconApiAdapter implements FalconApiAdapterInterface
     private function makeRequest(array $params): bool
     {
         try {
-
             $falconApiUrl = $this->configProvider->getFalconApiCacheUrl();
             if ($falconApiUrl === '') {
                 $this->error = 'Falcon Cache API Url is not set.';
