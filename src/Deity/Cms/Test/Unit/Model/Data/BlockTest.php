@@ -5,6 +5,11 @@ namespace Deity\Cms\Model\Data;
 use PHPUnit\Framework\TestCase;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 
+/**
+ * Class BlockTest
+ *
+ * @package Deity\Cms\Model\Data
+ */
 class BlockTest extends TestCase
 {
 

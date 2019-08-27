@@ -105,7 +105,7 @@ class PasswordResetTest extends WebapiAbstract
     {
         $customerData = $this->createCustomer();
 
-        $resetToken = substr(md5((string)mt_rand()), 0, 25);
+        $resetToken = substr(hash_hmac('sha512', (string)mt_rand(), 'secret-key'), 0, 25);
         $password = uniqid('psw') . 'ABCD$%&!';
 
         $this->setResetPasswordData($resetToken, 'Y-m-d H:i:s', $customerData['id']);

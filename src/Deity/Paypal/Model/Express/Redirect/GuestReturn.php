@@ -138,18 +138,17 @@ class GuestReturn implements GuestReturnInterface
             // redirect if PayPal specified some URL (for example, to Giropay bank)
             $url = $checkout->getRedirectUrl();
             if ($url) {
-                throw new LocalizedException(__('Giropay pay is not supported!'));
+                $message = 'Giropay pay is not supported!';
+                $this->logger->critical('PayPal guest return action: ' . $message);
+                $redirectUrl = $this->redirectToFalconProvider->getFailureUrl($quote);
+                $message = __('Reason: %1', $message);
+            } else {
+                $redirectUrl = $this->redirectToFalconProvider->getSuccessUrl($quote);
+                $message = __('Your Order got a number: #%1', $checkout->getOrder()->getIncrementId());
+                $orderIdMasked = $this->orderIdMaskRepository->get((int)$checkout->getOrder()->getId());
+                $orderId = $orderIdMasked->getMaskedId();
+                $orderIncrementId = $checkout->getOrder()->getIncrementId();
             }
-
-            $redirectUrl = $this->redirectToFalconProvider->getSuccessUrl($quote);
-            $message = __('Your Order got a number: #%1', $checkout->getOrder()->getIncrementId());
-            $orderIdMasked = $this->orderIdMaskRepository->get((int)$checkout->getOrder()->getId());
-            $orderId = $orderIdMasked->getMaskedId();
-            $orderIncrementId = $checkout->getOrder()->getIncrementId();
-        } catch (LocalizedException $e) {
-            $this->logger->critical('PayPal guest return action: ' . $e->getMessage());
-            $redirectUrl = $this->redirectToFalconProvider->getFailureUrl($quote);
-            $message = __('Reason: %1', $e->getMessage());
         } catch (\Exception $e) {
             $this->logger->critical('PayPal guest return action: ' . $e->getMessage());
             $message = __('Reason: %1', $e->getMessage());

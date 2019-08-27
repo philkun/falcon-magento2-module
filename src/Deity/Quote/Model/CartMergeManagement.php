@@ -75,6 +75,7 @@ class CartMergeManagement implements CartMergeManagementInterface
             $customerQuote->merge($guestCart);
             
             $this->cartRepository->delete($guestCart);
+            // phpcs:ignore
         } catch (NoSuchEntityException $e) {
             //if given quote hash doesn't exist do nothing
         } finally {

@@ -13,6 +13,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 
+/**
+ * Class GetStaticBlockDataTest
+ *
+ * @package Deity\Cms\Model
+ */
 class GetStaticBlockDataTest extends TestCase
 {
 

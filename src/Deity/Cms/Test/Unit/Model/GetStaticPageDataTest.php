@@ -12,6 +12,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 
+/**
+ * Class GetStaticPageDataTest
+ *
+ * @package Deity\Cms\Model
+ */
 class GetStaticPageDataTest extends TestCase
 {
 

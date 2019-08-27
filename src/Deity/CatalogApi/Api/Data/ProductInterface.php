@@ -66,7 +66,7 @@ interface ProductInterface extends CustomAttributesDataInterface
     /**
      * Set price
      *
-     * @param \Deity\CatalogApi\Api\Data\ProductPriceInterface $productPrice
+     * @param   \Deity\CatalogApi\Api\Data\ProductPriceInterface $productPrice
      * @return  \Deity\CatalogApi\Api\Data\ProductInterface
      */
     public function setPrice(ProductPriceInterface $productPrice): ProductInterface;

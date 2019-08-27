@@ -10,6 +10,11 @@ use PHPUnit\Framework\TestCase;
 use Magento\Cms\Model\ResourceModel\Block;
 use Magento\Cms\Model\Block as BlockInstance;
 
+/**
+ * Class GetBlockByIdentifierTest
+ *
+ * @package Deity\Cms\Model
+ */
 class GetBlockByIdentifierTest extends TestCase
 {
 
