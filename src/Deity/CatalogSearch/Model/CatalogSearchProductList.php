@@ -134,6 +134,7 @@ class CatalogSearchProductList implements SearchInterface
             ->addFinalPrice()
             ->addTaxPercents()
             ->addUrlRewrite()
+            ->setOrder('relevance', 'DESC')
             ->setVisibility($this->productVisibility->getVisibleInSearchIds());
 
         $this->queryCollectionService->apply($collection, $query);
