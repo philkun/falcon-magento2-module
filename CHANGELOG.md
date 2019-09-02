@@ -1,6 +1,10 @@
 **Note:** This is a cumulative changelog that outlines all of the changes to all magento modules in Deity [src/Deity](./src/Deity) namespace.
 
 Versions marked with a number and date (e.g. v0.1.0 (2018-10-05)) are already released and available via packagist. Versions without a date are not released yet.
+## v5.1.1 (2019-09-02)
+ - Updated codebase according to new coding standard of Magento 2.3.2
+ - Fixed few issues with test fixtures for Magento 2.3.2
+ - Fixed the issue with empty catalog product response when page size is not specified
 ## v5.1.0 (2019-06-25)
  -  Added new endpoint that returns version and default store code [#89](https://github.com/deity-io/falcon-magento2-development/issues/89)
  -  Added cache invalidation hook [#107](https://github.com/deity-io/falcon-magento2-development/issues/107)
