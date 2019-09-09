@@ -3,19 +3,19 @@ declare(strict_types=1);
 
 namespace Deity\CatalogSearch\Model;
 
+use Deity\Catalog\Model\CategoryProductList;
 use Deity\CatalogApi\Api\Data\ProductSearchResultsInterface;
 use Deity\CatalogApi\Api\Data\ProductSearchResultsInterfaceFactory;
 use Deity\CatalogApi\Api\ProductConvertInterface;
 use Deity\CatalogApi\Api\ProductFilterProviderInterface;
+use Deity\CatalogApi\Model\Product\CollectionProviderInterface;
 use Deity\CatalogSearchApi\Api\SearchInterface;
 use Deity\CatalogSearchApi\Model\QueryCollectionServiceInterface;
-use Magento\Catalog\Api\ProductRepositoryInterface;
-use Magento\Catalog\Model\Config;
 use Magento\Catalog\Model\Layer\Resolver;
-use Magento\Catalog\Model\Product\Visibility;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 use Magento\Framework\Api\Search\SearchCriteriaInterface;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 
 /**
  * Class CatalogSearchProductList
@@ -30,16 +30,6 @@ class CatalogSearchProductList implements SearchInterface
     private $queryCollectionService;
 
     /**
-     * @var Config
-     */
-    private $catalogConfig;
-
-    /**
-     * @var Visibility
-     */
-    private $productVisibility;
-
-    /**
      * @var CollectionFactory
      */
     private $collectionFactory;
@@ -48,16 +38,6 @@ class CatalogSearchProductList implements SearchInterface
      * @var Resolver
      */
     private $layerResolver;
-
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $productRepository;
-
-    /**
-     * @var \Magento\Catalog\Model\Layer\Search
-     */
-    private $searchLayer;
 
     /**
      * @var ProductSearchResultsInterfaceFactory
@@ -80,67 +60,75 @@ class CatalogSearchProductList implements SearchInterface
     private $collectionProcessor;
 
     /**
+     * @var SearchCriteriaBuilder
+     */
+    private $searchBuilder;
+
+    /**
+     * @var CollectionProviderInterface
+     */
+    private $collectionProvider;
+
+    /**
      * CatalogSearchProductList constructor.
      * @param ProductSearchResultsInterfaceFactory $productSearchResultFactory
+     * @param CollectionProviderInterface $collectionProvider
      * @param ProductConvertInterface $convert
      * @param Resolver $layerResolver
-     * @param ProductRepositoryInterface $productRepository
      * @param ProductFilterProviderInterface $productFilterProvider
      * @param CollectionProcessorInterface $collectionProcessor
      * @param CollectionFactory $collectionFactory
-     * @param Config $catalogConfig
-     * @param Visibility $productVisibility
+     * @param SearchCriteriaBuilder $searchBuilder
      * @param QueryCollectionServiceInterface $queryCollectionService
      */
     public function __construct(
         ProductSearchResultsInterfaceFactory $productSearchResultFactory,
+        CollectionProviderInterface $collectionProvider,
         ProductConvertInterface $convert,
         Resolver $layerResolver,
-        ProductRepositoryInterface $productRepository,
         ProductFilterProviderInterface $productFilterProvider,
         CollectionProcessorInterface $collectionProcessor,
         CollectionFactory $collectionFactory,
-        Config $catalogConfig,
-        Visibility $productVisibility,
+        SearchCriteriaBuilder $searchBuilder,
         QueryCollectionServiceInterface $queryCollectionService
     ) {
+        $this->searchBuilder = $searchBuilder;
         $this->collectionProcessor = $collectionProcessor;
         $this->filterProvider = $productFilterProvider;
         $this->productConverter = $convert;
         $this->productSearchResultFactory = $productSearchResultFactory;
-
+        $this->collectionProvider = $collectionProvider;
         $layerResolver->create(Resolver::CATALOG_LAYER_SEARCH);
-        $this->searchLayer = $layerResolver->get();
         $this->layerResolver = $layerResolver;
-        $this->productRepository = $productRepository;
         $this->collectionFactory = $collectionFactory;
-        $this->catalogConfig = $catalogConfig;
-        $this->productVisibility = $productVisibility;
         $this->queryCollectionService = $queryCollectionService;
     }
 
     /**
      * @inheritdoc
      */
-    public function search(string $query, SearchCriteriaInterface $searchCriteria = null): ProductSearchResultsInterface
-    {
+    public function search(
+        string $query = '',
+        SearchCriteriaInterface $searchCriteria = null
+    ): ProductSearchResultsInterface {
         $responseProducts = [];
         $layer = $this->layerResolver->get();
-        $collection = $layer->getProductCollection();
 
-        $collection
-            ->addAttributeToSelect($this->catalogConfig->getProductAttributes())
-            ->addMinimalPrice()
-            ->addFinalPrice()
-            ->addTaxPercents()
-            ->addUrlRewrite()
-            ->setVisibility($this->productVisibility->getVisibleInSearchIds());
+        $collection = $this->collectionProvider->getProductCollectionFromLayer($layer);
+        $collection->setOrder('relevance', 'DESC');
 
         $this->queryCollectionService->apply($collection, $query);
 
-        if ($searchCriteria !== null) {
-            $this->collectionProcessor->process($searchCriteria, $collection);
+        if ($searchCriteria === null) {
+            $searchCriteria = $this->searchBuilder
+                ->setCurrentPage(1)
+                ->setPageSize(CategoryProductList::FALCON_DEFAULT_PAGE_SIZE)
+                ->create();
+        } elseif ($searchCriteria->getPageSize() == 0) {
+            $searchCriteria->setCurrentPage(1)->setPageSize(CategoryProductList::FALCON_DEFAULT_PAGE_SIZE);
         }
+
+        $this->collectionProcessor->process($searchCriteria, $collection);
 
         foreach ($collection->getItems() as $product) {
             $responseProducts[] = $this->productConverter->convert(

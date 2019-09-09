@@ -20,6 +20,6 @@ interface SearchInterface
      * @param \Magento\Framework\Api\Search\SearchCriteriaInterface $searchCriteria
      * @return \Deity\CatalogApi\Api\Data\ProductSearchResultsInterface
      */
-    public function search(string $query, SearchCriteriaInterface $searchCriteria = null) :
+    public function search(string $query = '', SearchCriteriaInterface $searchCriteria = null) :
         ProductSearchResultsInterface;
 }
