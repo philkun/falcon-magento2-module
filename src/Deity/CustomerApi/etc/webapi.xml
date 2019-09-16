@@ -73,4 +73,11 @@
             <parameter name="customerId" force="true">%customer_id%</parameter>
         </data>
     </route>
+
+    <route url="/V1/falcon/customers/:customerId/password/resetLinkToken/:resetPasswordLinkToken" method="GET">
+        <service class="Deity\CustomerApi\Api\AccountManagementInterface" method="validateResetPasswordLinkToken"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
 </routes>
