@@ -13,6 +13,7 @@ use Deity\CatalogApi\Model\ProductUrlPathProviderInterface;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Profiler;
+use Magento\Framework\Registry;
 
 /**
  * Class ProductConvert
@@ -48,11 +49,17 @@ class ProductConvert implements ProductConvertInterface
     private $productMapper;
 
     /**
+     * @var Registry
+     */
+    private $registry;
+
+    /**
      * ProductConvert constructor.
      * @param ProductInterfaceFactory $productFactory
      * @param ProductUrlPathProviderInterface $urlPathProvider
      * @param ProductPriceProviderInterface $priceProvider
      * @param ProductImageProviderInterface $imageProvider
+     * @param Registry $registry
      * @param ProductMapperInterface $productMapper
      */
     public function __construct(
@@ -60,8 +67,10 @@ class ProductConvert implements ProductConvertInterface
         ProductUrlPathProviderInterface $urlPathProvider,
         ProductPriceProviderInterface $priceProvider,
         ProductImageProviderInterface $imageProvider,
+        Registry $registry,
         ProductMapperInterface $productMapper
     ) {
+        $this->registry = $registry;
         $this->productMapper = $productMapper;
         $this->urlPathProvider = $urlPathProvider;
         $this->priceProvider = $priceProvider;
@@ -76,7 +85,11 @@ class ProductConvert implements ProductConvertInterface
     {
         Profiler::start('__PRODUCT_LISTING_CONVERT__', ['group' => 'Deity']);
 
-        $this->currentProductObject = $product;
+        $categoryObject = $this->registry->registry('current_category');
+        $categoryId = '';
+        if ($categoryObject) {
+            $categoryId = $categoryObject->getId();
+        }
 
         $deityProduct = $this->productFactory->create();
         $deityProduct->setId($product->getId());
@@ -84,7 +97,7 @@ class ProductConvert implements ProductConvertInterface
         $deityProduct->setTypeId((string)$product->getTypeId());
         $deityProduct->setSku((string)$product->getSku());
         $deityProduct->setUrlPath(
-            $this->urlPathProvider->getProductUrlPath($product, (string)$product->getCategoryId())
+            $this->urlPathProvider->getProductUrlPath($product, (string)$categoryId)
         );
         $deityProduct->setIsSalable((int)$product->getIsSalable());
 

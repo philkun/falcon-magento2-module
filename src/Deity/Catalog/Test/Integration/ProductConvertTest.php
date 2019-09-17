@@ -101,28 +101,30 @@ class ProductConvertTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Catalog/_files/category_product.php
+     * @magentoDataFixture ../../../../app/code/Deity/CatalogApi/Test/_files/categories_with_children.php
      */
-    public function testConvertProductCategory()
+    public function testUrlPathForAnchorCategory()
     {
         /** @var ProductConvertInterface $productConverter */
         $productConverter = $this->objectManager->create(ProductConvertInterface::class);
-        $magentoProductObject = $this->productRepository->get('simple333');
+        $magentoProductObject = $this->productRepository->get('simple-2');
 
         /** @var \Magento\Framework\Registry $registry */
         $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get(\Magento\Framework\Registry::class);
         /** @var Category $category */
-        $category = $this->categoryRepository->get(333);
+        $category = $this->categoryRepository->get(3);
         $registry->register('current_category', $category);
 
         /** @var ProductInterface $convertedProduct */
         $convertedProduct = $productConverter->convert($magentoProductObject);
 
         $this->assertEquals(
-            'category-1/simple-product-three.html',
+            'first/simple-two.html',
             $convertedProduct->getUrlPath(),
             'url path should be within category context'
         );
+
+        $registry->unregister('current_category');
     }
 }
