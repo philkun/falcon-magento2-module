@@ -1,6 +1,10 @@
 **Note:** This is a cumulative changelog that outlines all of the changes to all magento modules in Deity [src/Deity](./src/Deity) namespace.
 
 Versions marked with a number and date (e.g. v0.1.0 (2018-10-05)) are already released and available via packagist. Versions without a date are not released yet.
+## v5.1.2 (2019-09-19)
+ - Updated search API: search term is no longer a required argument.
+ - Introduced new API for validating password token.
+ - Fixed the issue with retrieving product url path within category context caused by change introduced in m 2.3.1, 2.3.2
 ## v5.1.1 (2019-09-02)
  - Updated codebase according to new coding standard of Magento 2.3.2
  - Fixed few issues with test fixtures for Magento 2.3.2
