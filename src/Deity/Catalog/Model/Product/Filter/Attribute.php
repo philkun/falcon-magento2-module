@@ -51,11 +51,13 @@ class Attribute implements FilterDataRendererInterface
      * @param array $selectedValues
      * @return FilterInterface
      * @throws LocalizedException
-     * @SuppressWarnings(PHPCPD)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function getFilterData(Layer $layer, AbstractFilter $magentoFilter, array $selectedValues = [])
-    : FilterInterface
-    {
+    public function getFilterData(
+        Layer $layer,
+        AbstractFilter $magentoFilter,
+        array $selectedValues = []
+    ) : FilterInterface {
         /** @var FilterInterface $filterObject */
         $filterObject = $this->filterFactory->create(
             [

@@ -50,11 +50,14 @@ class Category implements FilterDataRendererInterface
      * @param AbstractFilter $magentoFilter
      * @param array $selectedValues
      * @return FilterInterface
+     * * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @throws LocalizedException
      */
-    public function getFilterData(Layer $layer, AbstractFilter $magentoFilter, array $selectedValues = [])
-    : FilterInterface
-    {
+    public function getFilterData(
+        Layer $layer,
+        AbstractFilter $magentoFilter,
+        array $selectedValues = []
+    ) : FilterInterface {
         /** @var FilterInterface $filterObject */
         $filterObject = $this->filterFactory->create(
             [

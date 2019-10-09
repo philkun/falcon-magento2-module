@@ -78,9 +78,11 @@ class Price implements FilterDataRendererInterface
      * @return FilterInterface
      * @throws LocalizedException
      */
-    public function getFilterData(Layer $layer, AbstractFilter $magentoFilter, array $selectedValues = [])
-    : FilterInterface
-    {
+    public function getFilterData(
+        Layer $layer,
+        AbstractFilter $magentoFilter,
+        array $selectedValues = []
+    ) : FilterInterface {
         $this->dataProvider = $this->priceFactory->create(['layer' => $layer]);
         /** @var FilterInterface $filterObject */
         $filterObject = $this->filterFactory->create(

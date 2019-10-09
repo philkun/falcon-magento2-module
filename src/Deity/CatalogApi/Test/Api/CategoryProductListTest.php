@@ -311,7 +311,7 @@ class CategoryProductListTest extends WebapiAbstract
             'Selected filter option should have the exact value'
         );
 
-        $searchCriteria['searchCriteria']['filter_groups'][0]['filters'][0]['value'] = '10';
+        $searchCriteria['searchCriteria']['filter_groups'][0]['filters'][0]['value'] = '-10';
 
         $serviceInfo = [
             'rest' => [
@@ -334,7 +334,7 @@ class CategoryProductListTest extends WebapiAbstract
         $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
 
         $this->assertEquals(
-            '10',
+            '-10',
             $option[FilterOptionInterface::VALUE],
             'Selected filter option should have the exact value'
         );
@@ -443,7 +443,7 @@ class CategoryProductListTest extends WebapiAbstract
             'Selected filter option should have the exact value'
         );
 
-        $searchCriteria['searchCriteria']['filter_groups'][0]['filters'][0]['value'] = '60';
+        $searchCriteria['searchCriteria']['filter_groups'][0]['filters'][0]['value'] = '60-';
 
         $serviceInfo = [
             'rest' => [
@@ -466,7 +466,7 @@ class CategoryProductListTest extends WebapiAbstract
         $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
 
         $this->assertEquals(
-            '60',
+            '60-',
             $option[FilterOptionInterface::VALUE],
             'Selected filter option should have the exact value'
         );
