@@ -23,6 +23,15 @@
     <preference for="Deity\CatalogApi\Api\Data\ProductDetailInterface" type="Deity\Catalog\Model\Data\ProductDetail" />
     <preference for="Deity\CatalogApi\Model\FilterProductCustomAttributeInterface" type="Deity\Catalog\Model\Product\FilterProductCustomAttribute" />
 
+    <type name="Deity\Catalog\Model\ProductFilterProvider">
+        <arguments>
+            <argument name="filterRenderers" xsi:type="array">
+                <item name="attribute" xsi:type="object">Deity\Catalog\Model\Product\Filter\Attribute</item>
+                <item name="category" xsi:type="object">Deity\Catalog\Model\Product\Filter\Category</item>
+                <item name="price" xsi:type="object">Deity\Catalog\Model\Product\Filter\Price</item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Deity\Catalog\Model\Product\UrlPathProvider">
         <arguments>
             <argument name="urlFinder" xsi:type="object">Magento\CatalogUrlRewrite\Model\Storage\DbStorage</argument>

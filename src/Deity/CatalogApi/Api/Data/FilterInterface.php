@@ -13,7 +13,7 @@ interface FilterInterface
     const LABEL = 'label';
     const CODE  = 'code';
     const OPTIONS = 'options';
-    const ATTRIBUTE_ID = 'attribute_id';
+    const ATTRIBUTE_ID = 'attributeId';
     const TYPE = 'type';
 
     /**
