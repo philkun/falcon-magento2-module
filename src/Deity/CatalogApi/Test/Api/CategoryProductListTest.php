@@ -259,6 +259,7 @@ class CategoryProductListTest extends WebapiAbstract
 
     /**
      * @magentoApiDataFixture ../../../../app/code/Deity/CatalogApi/Test/_files/categories_with_three_products.php
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function testPriceFilter()
     {
@@ -551,12 +552,15 @@ class CategoryProductListTest extends WebapiAbstract
      */
     private function extractPriceFilterOptions($filters)
     {
-        $priceFilter = array_filter($filters, function ($filter) {
-            if ($filter['code'] == 'price') {
-                return true;
+        $priceFilter = array_filter(
+            $filters,
+            function ($filter) {
+                if ($filter['code'] == 'price') {
+                    return true;
+                }
+                return false;
             }
-            return false;
-        });
+        );
 
         $this->assertGreaterThan(
             0,

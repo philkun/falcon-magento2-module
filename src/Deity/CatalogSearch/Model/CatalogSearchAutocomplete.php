@@ -47,9 +47,9 @@ class CatalogSearchAutocomplete implements SearchAutocompleteInterface
     {
         $data = [];
         foreach ($this->dataProviders as $dataProvider) {
-            $data = array_merge($data, $dataProvider->getAutocompleteItemsForQuery($q));
+            $data[] = $dataProvider->getAutocompleteItemsForQuery($q);
         }
 
-        return $data;
+        return array_merge(...$data);
     }
 }

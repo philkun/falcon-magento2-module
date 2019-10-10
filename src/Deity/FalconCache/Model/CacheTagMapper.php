@@ -86,12 +86,15 @@ class CacheTagMapper implements CacheTagMapperInterface
         foreach ([Product::CACHE_TAG, Category::CACHE_TAG] as $entityTag) {
             $indexFound = array_search($entityTag, $tags);
             if ($indexFound !== false) {
-                $tags = array_filter($tags, function ($tag) use ($entityTag) {
-                    if (strpos($tag, $entityTag) === 0) {
-                        return false;
+                $tags = array_filter(
+                    $tags,
+                    function ($tag) use ($entityTag) {
+                        if (strpos($tag, $entityTag) === 0) {
+                            return false;
+                        }
+                        return true;
                     }
-                    return true;
-                });
+                );
                 array_push($tags, $entityTag);
             }
         }

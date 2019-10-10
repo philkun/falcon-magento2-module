@@ -100,12 +100,13 @@ class PasswordResetTest extends WebapiAbstract
 
     /**
      *
+     * @throws \Exception
      */
     public function testPasswordReset()
     {
         $customerData = $this->createCustomer();
 
-        $resetToken = substr(hash_hmac('sha512', (string)mt_rand(), 'secret-key'), 0, 25);
+        $resetToken = substr(hash_hmac('sha512', random_bytes(10), 'secret-key'), 0, 25);
         $password = uniqid('psw') . 'ABCD$%&!';
 
         $this->setResetPasswordData($resetToken, 'Y-m-d H:i:s', $customerData['id']);

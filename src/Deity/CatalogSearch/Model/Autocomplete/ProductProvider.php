@@ -98,11 +98,13 @@ class ProductProvider implements DataProviderInterface
         $this->queryCollectionService->apply($collection, $query);
 
         foreach ($collection as $product) {
-            $result[] = $this->itemFactory->create([
-                AutocompleteItemInterface::TITLE => $product->getName(),
-                AutocompleteItemInterface::URL_PATH => $this->urlPathProvider->getProductUrlPath($product),
-                AutocompleteItemInterface::TYPE => self::AUTOCOMPLETE_TYPE_PRODUCT
-            ]);
+            $result[] = $this->itemFactory->create(
+                [
+                    AutocompleteItemInterface::TITLE => $product->getName(),
+                    AutocompleteItemInterface::URL_PATH => $this->urlPathProvider->getProductUrlPath($product),
+                    AutocompleteItemInterface::TYPE => self::AUTOCOMPLETE_TYPE_PRODUCT
+                ]
+            );
         }
 
         return $result;

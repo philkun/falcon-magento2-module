@@ -72,6 +72,8 @@ $category->setId(4)
 
 /** @var \Magento\UrlRewrite\Model\StorageInterface $urlRepository */
 $urlRepository = $objectManager->create(\Magento\UrlRewrite\Model\StorageInterface::class);
-$urlRepository->deleteByData([
+$urlRepository->deleteByData(
+    [
     'request_path' => 'level-one.html'
-]);
+    ]
+);

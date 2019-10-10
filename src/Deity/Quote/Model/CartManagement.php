@@ -14,6 +14,7 @@ use Magento\Quote\Api\Data\PaymentInterface;
  * Class CartManagement
  *
  * @package Deity\Quote\Model
+ * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
  */
 class CartManagement implements CartManagementInterface
 {
@@ -62,9 +63,11 @@ class CartManagement implements CartManagementInterface
         $orderId = $this->quoteManagement->placeOrder($cartId, $paymentMethod);
         $orderRealId = $this->checkoutSession->getLastRealOrderId();
 
-        return $this->orderResponseFactory->create([
-            OrderResponseInterface::ORDER_ID => (string)$orderId,
-            OrderResponseInterface::ORDER_REAL_ID => (string)$orderRealId
-        ]);
+        return $this->orderResponseFactory->create(
+            [
+                OrderResponseInterface::ORDER_ID => (string)$orderId,
+                OrderResponseInterface::ORDER_REAL_ID => (string)$orderRealId
+            ]
+        );
     }
 }

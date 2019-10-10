@@ -16,6 +16,7 @@ use Magento\Quote\Api\Data\PaymentInterface;
  * Class GuestPaymentInformationManagement
  *
  * @package Deity\Checkout\Model
+ * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
  */
 class GuestPaymentInformationManagement implements GuestPaymentInformationManagementInterface
 {
@@ -83,9 +84,11 @@ class GuestPaymentInformationManagement implements GuestPaymentInformationManage
         $orderRealId = $this->checkoutSession->getLastRealOrderId();
 
         $orderIdMask = $this->orderIdMaskRepository->get((int)$orderId);
-        return $this->orderResponseFactory->create([
-            OrderResponseInterface::ORDER_ID => (string)$orderIdMask->getMaskedId(),
-            OrderResponseInterface::ORDER_REAL_ID => (string)$orderRealId
-        ]);
+        return $this->orderResponseFactory->create(
+            [
+                OrderResponseInterface::ORDER_ID => (string)$orderIdMask->getMaskedId(),
+                OrderResponseInterface::ORDER_REAL_ID => (string)$orderRealId
+            ]
+        );
     }
 }
