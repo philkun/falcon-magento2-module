@@ -1,6 +1,9 @@
 **Note:** This is a cumulative changelog that outlines all of the changes to all magento modules in Deity [src/Deity](./src/Deity) namespace.
 
 Versions marked with a number and date (e.g. v0.1.0 (2018-10-05)) are already released and available via packagist. Versions without a date are not released yet.
+## v5.1.3 (2019-10-21)
+ - Fixed the issue when selected price filter option was not returned by API
+ - Update module according to the latest magento release 2.3.3
 ## v5.1.2 (2019-09-19)
  - Updated search API: search term is no longer a required argument.
  - Introduced new API for validating password token.
