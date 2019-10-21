@@ -67,6 +67,7 @@ class SuggestionProvider implements DataProviderInterface
      * @param string $query
      * @return \Deity\CatalogSearchApi\Api\Data\AutocompleteItemInterface[]
      * @throws \Exception
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getAutocompleteItemsForQuery(string $query): array
     {
@@ -88,11 +89,13 @@ class SuggestionProvider implements DataProviderInterface
         );
 
         foreach ($magentoAutocompleteItems as $item) {
-            $result[] = $this->itemFactory->create([
-                AutocompleteItemInterface::TITLE => $item['title'],
-                AutocompleteItemInterface::URL_PATH => '',
-                AutocompleteItemInterface::TYPE => self::AUTOCOMPLETE_TYPE_SUGGESTION
-            ]);
+            $result[] = $this->itemFactory->create(
+                [
+                    AutocompleteItemInterface::TITLE => $item['title'],
+                    AutocompleteItemInterface::URL_PATH => '',
+                    AutocompleteItemInterface::TYPE => self::AUTOCOMPLETE_TYPE_SUGGESTION
+                ]
+            );
         }
         return $result;
     }

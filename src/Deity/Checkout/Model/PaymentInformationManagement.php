@@ -15,6 +15,7 @@ use Magento\Quote\Api\Data\PaymentInterface;
  * Class PaymentInformationManagement
  *
  * @package Deity\Checkout\Model
+ * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
  */
 class PaymentInformationManagement implements PaymentInformationManagementInterface
 {
@@ -70,9 +71,11 @@ class PaymentInformationManagement implements PaymentInformationManagementInterf
         );
         $orderRealId = $this->checkoutSession->getLastRealOrderId();
 
-        return $this->orderResponseFactory->create([
-            OrderResponseInterface::ORDER_ID => (string)$orderId,
-            OrderResponseInterface::ORDER_REAL_ID => (string)$orderRealId
-        ]);
+        return $this->orderResponseFactory->create(
+            [
+                OrderResponseInterface::ORDER_ID => (string)$orderId,
+                OrderResponseInterface::ORDER_REAL_ID => (string)$orderRealId
+            ]
+        );
     }
 }

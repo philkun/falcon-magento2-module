@@ -3,24 +3,25 @@ declare(strict_types=1);
 
 namespace Deity\Catalog\Model;
 
-use Deity\CatalogApi\Api\Data\FilterInterface;
-use Deity\CatalogApi\Api\Data\FilterInterfaceFactory;
-use Deity\CatalogApi\Api\Data\FilterOptionInterface;
-use Deity\CatalogApi\Api\Data\FilterOptionInterfaceFactory;
+use Deity\CatalogApi\Api\ProductFilterProviderInterface;
+use Deity\CatalogApi\Model\Product\FilterDataRendererInterface;
 use Magento\Catalog\Model\Layer;
 use Magento\Catalog\Model\Layer\Filter\AbstractFilter;
-use Magento\Catalog\Model\Layer\Filter\Item;
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\State\InitException;
 
 /**
  * Class ProductFilterProvider
  *
  * @package Deity\Catalog\Model
  */
-class ProductFilterProvider implements \Deity\CatalogApi\Api\ProductFilterProviderInterface
+class ProductFilterProvider implements ProductFilterProviderInterface
 {
+    const CATEGORY_FILTER   = 'category';
+    const ATTRIBUTE_FILTER  = 'attribute';
+    const PRICE_FILTER      = 'price';
+    const DECIMAL_FILTER    = 'decimal';
 
     /**
      * @var Layer\FilterList
@@ -28,34 +29,32 @@ class ProductFilterProvider implements \Deity\CatalogApi\Api\ProductFilterProvid
     private $filterList;
 
     /**
-     * @var FilterInterfaceFactory;
-     */
-    private $filterFactory;
-
-    /**
-     * @var FilterOptionInterfaceFactory
-     */
-    private $filterOptionFactory;
-
-    /**
      * @var string[][]
      */
     private $filterValues = [];
 
     /**
+     * @var FilterDataRendererInterface[]
+     */
+    private $filterRenderers;
+
+    /**
      * ProductFilterProvider constructor.
      * @param Layer\FilterList $filterList
-     * @param FilterInterfaceFactory $filterFactory
-     * @param FilterOptionInterfaceFactory $filterOptionFactory
+     * @param string[] $filterRenderers
+     * @throws InputException
      */
     public function __construct(
         Layer\FilterList $filterList,
-        FilterInterfaceFactory $filterFactory,
-        FilterOptionInterfaceFactory $filterOptionFactory
+        array $filterRenderers
     ) {
         $this->filterList = $filterList;
-        $this->filterOptionFactory = $filterOptionFactory;
-        $this->filterFactory = $filterFactory;
+        foreach ($filterRenderers as $filterRenderer) {
+            if (!$filterRenderer instanceof FilterDataRendererInterface) {
+                throw new InputException(__('Filter data renderer must implement FilterDataRendererInterface'));
+            }
+        }
+        $this->filterRenderers = $filterRenderers;
     }
 
     /**
@@ -73,61 +72,31 @@ class ProductFilterProvider implements \Deity\CatalogApi\Api\ProductFilterProvid
             if (!$magentoFilter->getItemsCount() && !$this->isFilterSelected($magentoFilter)) {
                 continue;
             }
-            $filterInitData = [];
-            $filterInitData['label'] = (string)$magentoFilter->getName();
-            if ($magentoFilter->getRequestVar() == 'cat') {
-                $filterInitData['code'] = $magentoFilter->getRequestVar();
-                $filterInitData['type'] = 'int';
-                $filterInitData['attributeId'] = 0;
-            } else {
-                $filterInitData['code'] = $magentoFilter->getAttributeModel()->getAttributeCode();
-                $filterInitData['type'] = $magentoFilter->getAttributeModel()->getBackendType();
-                $filterInitData['attributeId'] = (int)$magentoFilter->getAttributeModel()->getAttributeId();
-            }
-            /** @var FilterInterface $filterObject */
-            $filterObject = $this->filterFactory->create($filterInitData);
-            $magentoOptions = $magentoFilter->getItems();
-            /** @var Item $magentoOption */
-            foreach ($magentoOptions as $magentoOption) {
-                /** @var FilterOptionInterface $filterOption */
-                $filterOption =$this->filterOptionFactory->create(
-                    [
-                        FilterOptionInterface::LABEL => (string)$magentoOption->getData('label'),
-                        FilterOptionInterface::VALUE => $magentoOption->getValueString(),
-                        FilterOptionInterface::COUNT => (int)$magentoOption->getData('count'),
-                        FilterOptionInterface::IS_SELECTED =>
-                            $this->getIsSelectedFlagForFilterOption(
-                                $magentoFilter,
-                                (string)$magentoOption->getValueString()
-                            )
-                    ]
-                );
-                $filterObject->addOption($filterOption);
-            }
 
-            $resultFilters[] = $filterObject;
+            $filterDataRenderer = $this->getFilterDataRenderer($magentoFilter);
+
+            $resultFilters[] = $filterDataRenderer->getFilterData(
+                $layer,
+                $magentoFilter,
+                $this->getSelectedValuesForFilter($magentoFilter)
+            );
         }
         return $resultFilters;
     }
 
     /**
-     * Check if filter option is selected
+     * Get selected values per filter object
      *
      * @param AbstractFilter $magentoFilter
-     * @param string $getValueString
-     * @return bool
+     * @return array
      */
-    private function getIsSelectedFlagForFilterOption(AbstractFilter $magentoFilter, string $getValueString): bool
+    private function getSelectedValuesForFilter(AbstractFilter $magentoFilter): array
     {
         if (!$this->isFilterSelected($magentoFilter)) {
-            return false;
+            return [];
         }
 
-        if (in_array($getValueString, $this->filterValues[$magentoFilter->getRequestVar()])) {
-            return true;
-        }
-
-        return false;
+        return $this->filterValues[$magentoFilter->getRequestVar()];
     }
 
     /**
@@ -160,5 +129,25 @@ class ProductFilterProvider implements \Deity\CatalogApi\Api\ProductFilterProvid
         }
 
         return $this;
+    }
+
+    /**
+     * Get filter data
+     *
+     * @param AbstractFilter $magentoFilter
+     * @return FilterDataRendererInterface
+     * @throws LocalizedException
+     */
+    private function getFilterDataRenderer(AbstractFilter $magentoFilter): FilterDataRendererInterface
+    {
+        if ($magentoFilter->getRequestVar() === 'cat') {
+            return $this->filterRenderers[self::CATEGORY_FILTER];
+        }
+
+        if ($magentoFilter->getAttributeModel()->getAttributeCode() == 'price') {
+            return $this->filterRenderers[self::PRICE_FILTER];
+        }
+
+        return $this->filterRenderers[self::ATTRIBUTE_FILTER];
     }
 }

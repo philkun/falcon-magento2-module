@@ -15,6 +15,7 @@ use Magento\Quote\Api\GuestCartManagementInterface as MagentoGuestCartManagement
  * Class GuestCartManagement
  *
  * @package Deity\Quote\Model
+ * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
  */
 class GuestCartManagement implements GuestCartManagementInterface
 {
@@ -71,9 +72,11 @@ class GuestCartManagement implements GuestCartManagementInterface
         $orderId = $this->guestQuoteManagement->placeOrder($cartId, $paymentMethod);
         $orderRealId = $this->checkoutSession->getLastRealOrderId();
         $orderIdMask = $this->orderIdMaskRepository->get((int)$orderId);
-        return $this->orderResponseFactory->create([
-            OrderResponseInterface::ORDER_ID => (string)$orderIdMask->getMaskedId(),
-            OrderResponseInterface::ORDER_REAL_ID => (string)$orderRealId
-        ]);
+        return $this->orderResponseFactory->create(
+            [
+                OrderResponseInterface::ORDER_ID => (string)$orderIdMask->getMaskedId(),
+                OrderResponseInterface::ORDER_REAL_ID => (string)$orderRealId
+            ]
+        );
     }
 }

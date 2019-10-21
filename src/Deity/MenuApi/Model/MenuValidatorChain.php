@@ -59,10 +59,10 @@ class MenuValidatorChain implements MenuValidatorInterface
             $validationResult = $validator->validate($menu);
 
             if (!$validationResult->isValid()) {
-                $errors = array_merge($errors, $validationResult->getErrors());
+                $errors[] = $validationResult->getErrors();
             }
         }
 
-        return $this->validationResultFactory->create(['errors' => $errors]);
+        return $this->validationResultFactory->create(['errors' => array_merge(array_values($errors))]);
     }
 }

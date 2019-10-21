@@ -3,8 +3,11 @@ declare(strict_types=1);
 
 namespace Deity\CatalogApi\Test\Api;
 
+use Deity\CatalogApi\Api\Data\FilterInterface;
+use Deity\CatalogApi\Api\Data\FilterOptionInterface;
 use Deity\CatalogApi\Api\Data\ProductInterface;
 use Deity\CatalogApi\Api\Data\ProductSearchResultsInterface;
+use Magento\Framework\Api\SimpleDataObjectConverter;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
@@ -256,6 +259,7 @@ class CategoryProductListTest extends WebapiAbstract
 
     /**
      * @magentoApiDataFixture ../../../../app/code/Deity/CatalogApi/Test/_files/categories_with_three_products.php
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function testPriceFilter()
     {
@@ -287,7 +291,26 @@ class CategoryProductListTest extends WebapiAbstract
         ];
         $response = $this->_webApiCall($serviceInfo);
 
-        $this->assertEquals(0, $response['total_count'], 'No products expected');
+        $this->assertEquals(0, $response[ProductSearchResultsInterface::KEY_TOTAL_COUNT], 'No products expected');
+
+        $this->assertEquals(
+            1,
+            count($response[ProductSearchResultsInterface::KEY_FILTERS]),
+            'At least one filter is expected'
+        );
+
+        $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
+
+        $this->assertEquals(
+            '-9',
+            $option[FilterOptionInterface::VALUE],
+            'Selected filter option should have the exact value'
+        );
+        $this->assertEquals(
+            true,
+            $option[SimpleDataObjectConverter::camelCaseToSnakeCase(FilterOptionInterface::IS_SELECTED)],
+            'Selected filter option should have the exact value'
+        );
 
         $searchCriteria['searchCriteria']['filter_groups'][0]['filters'][0]['value'] = '-10';
 
@@ -303,6 +326,25 @@ class CategoryProductListTest extends WebapiAbstract
 
         $this->assertEquals(1, $response['total_count'], 'One product expected');
 
+        $this->assertGreaterThan(
+            0,
+            count($response[ProductSearchResultsInterface::KEY_FILTERS]),
+            'At least one filter is expected'
+        );
+
+        $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
+
+        $this->assertEquals(
+            '-10',
+            $option[FilterOptionInterface::VALUE],
+            'Selected filter option should have the exact value'
+        );
+        $this->assertEquals(
+            true,
+            $option[SimpleDataObjectConverter::camelCaseToSnakeCase(FilterOptionInterface::IS_SELECTED)],
+            'Selected filter option should have the exact value'
+        );
+
         $searchCriteria['searchCriteria']['filter_groups'][0]['filters'][0]['value'] = '-30';
 
         $serviceInfo = [
@@ -316,6 +358,25 @@ class CategoryProductListTest extends WebapiAbstract
         $response = $this->_webApiCall($serviceInfo);
 
         $this->assertEquals(2, $response['total_count'], 'Two products expected');
+
+        $this->assertGreaterThan(
+            0,
+            count($response[ProductSearchResultsInterface::KEY_FILTERS]),
+            'At least one filter is expected'
+        );
+
+        $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
+
+        $this->assertEquals(
+            '-30',
+            $option[FilterOptionInterface::VALUE],
+            'Selected filter option should have the exact value'
+        );
+        $this->assertEquals(
+            true,
+            $option[SimpleDataObjectConverter::camelCaseToSnakeCase(FilterOptionInterface::IS_SELECTED)],
+            'Selected filter option should have the exact value'
+        );
 
         $searchCriteria['searchCriteria']['filter_groups'][0]['filters'][0]['value'] = '20-30';
 
@@ -331,6 +392,25 @@ class CategoryProductListTest extends WebapiAbstract
 
         $this->assertEquals(1, $response['total_count'], 'One product expected');
 
+        $this->assertGreaterThan(
+            0,
+            count($response[ProductSearchResultsInterface::KEY_FILTERS]),
+            'At least one filter is expected'
+        );
+
+        $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
+
+        $this->assertEquals(
+            '20-30',
+            $option[FilterOptionInterface::VALUE],
+            'Selected filter option should have the exact value'
+        );
+        $this->assertEquals(
+            true,
+            $option[SimpleDataObjectConverter::camelCaseToSnakeCase(FilterOptionInterface::IS_SELECTED)],
+            'Selected filter option should have the exact value'
+        );
+
         $searchCriteria['searchCriteria']['filter_groups'][0]['filters'][0]['value'] = '30-';
 
         $serviceInfo = [
@@ -344,6 +424,25 @@ class CategoryProductListTest extends WebapiAbstract
         $response = $this->_webApiCall($serviceInfo);
 
         $this->assertEquals(2, $response['total_count'], 'Two products expected with price over 30');
+
+        $this->assertGreaterThan(
+            0,
+            count($response[ProductSearchResultsInterface::KEY_FILTERS]),
+            'At least one filter is expected'
+        );
+
+        $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
+
+        $this->assertEquals(
+            '30-',
+            $option[FilterOptionInterface::VALUE],
+            'Selected filter option should have the exact value'
+        );
+        $this->assertEquals(
+            true,
+            $option[SimpleDataObjectConverter::camelCaseToSnakeCase(FilterOptionInterface::IS_SELECTED)],
+            'Selected filter option should have the exact value'
+        );
 
         $searchCriteria['searchCriteria']['filter_groups'][0]['filters'][0]['value'] = '60-';
 
@@ -359,6 +458,25 @@ class CategoryProductListTest extends WebapiAbstract
 
         $this->assertEquals(1, $response['total_count'], 'One product expected with price over 60');
 
+        $this->assertGreaterThan(
+            0,
+            count($response[ProductSearchResultsInterface::KEY_FILTERS]),
+            'At least one filter is expected'
+        );
+
+        $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
+
+        $this->assertEquals(
+            '60-',
+            $option[FilterOptionInterface::VALUE],
+            'Selected filter option should have the exact value'
+        );
+        $this->assertEquals(
+            true,
+            $option[SimpleDataObjectConverter::camelCaseToSnakeCase(FilterOptionInterface::IS_SELECTED)],
+            'Selected filter option should have the exact value'
+        );
+
         $searchCriteria['searchCriteria']['filter_groups'][0]['filters'][0]['value'] = '70-';
 
         $serviceInfo = [
@@ -373,6 +491,25 @@ class CategoryProductListTest extends WebapiAbstract
 
         $this->assertEquals(0, $response['total_count'], 'No products expected');
 
+        $this->assertGreaterThan(
+            0,
+            count($response[ProductSearchResultsInterface::KEY_FILTERS]),
+            'At least one filter is expected'
+        );
+
+        $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
+
+        $this->assertEquals(
+            '70-',
+            $option[FilterOptionInterface::VALUE],
+            'Selected filter option should have the exact value'
+        );
+        $this->assertEquals(
+            true,
+            $option[SimpleDataObjectConverter::camelCaseToSnakeCase(FilterOptionInterface::IS_SELECTED)],
+            'Selected filter option should have the exact value'
+        );
+
         $searchCriteria['searchCriteria']['filter_groups'][0]['filters'][0]['value'] = '10-60';
 
         $serviceInfo = [
@@ -386,6 +523,52 @@ class CategoryProductListTest extends WebapiAbstract
         $response = $this->_webApiCall($serviceInfo);
 
         $this->assertEquals(3, $response['total_count'], 'Three product expected');
+
+        $this->assertGreaterThan(
+            0,
+            count($response[ProductSearchResultsInterface::KEY_FILTERS]),
+            'At least one filter is expected'
+        );
+
+        $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
+
+        $this->assertEquals(
+            '10-60',
+            $option[FilterOptionInterface::VALUE],
+            'Selected filter option should have the exact value'
+        );
+        $this->assertEquals(
+            true,
+            $option[SimpleDataObjectConverter::camelCaseToSnakeCase(FilterOptionInterface::IS_SELECTED)],
+            'Selected filter option should have the exact value'
+        );
+    }
+
+    /**
+     * Extract price filter options from api response
+     *
+     * @param $filters
+     * @return array
+     */
+    private function extractPriceFilterOptions($filters)
+    {
+        $priceFilter = array_filter(
+            $filters,
+            function ($filter) {
+                if ($filter['code'] == 'price') {
+                    return true;
+                }
+                return false;
+            }
+        );
+
+        $this->assertGreaterThan(
+            0,
+            count($priceFilter[0][FilterInterface::OPTIONS]),
+            'There should be at least one option'
+        );
+
+        return $priceFilter[0][FilterInterface::OPTIONS][0];
     }
 
     /**
