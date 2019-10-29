@@ -3,7 +3,7 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                <resource id="Deity_FalconCache::config" title="Falcon Api Config" translate="title" sortOrder="10" />
+                <resource id="Deity_FalconCache::config" title="Falcon Cache Config" translate="title" sortOrder="10" />
             </resource>
         </resources>
     </acl>

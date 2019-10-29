@@ -6,4 +6,10 @@
             <resource ref="anonymous" />
         </resources>
     </route>
+    <route url="/V1/falcon/config" method="POST">
+        <service class="Deity\BaseApi\Api\FalconConfigRepositoryInterface" method="saveConfiguration" />
+        <resources>
+            <resource ref="Deity_Falcon::config" />
+        </resources>
+    </route>
 </routes>
