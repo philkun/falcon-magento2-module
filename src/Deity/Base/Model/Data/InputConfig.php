@@ -24,17 +24,6 @@ class InputConfig implements InputConfigInterface
     private $value;
 
     /**
-     * InputConfig constructor.
-     * @param string $name
-     * @param string $value
-     */
-    public function __construct(string $name, string $value)
-    {
-        $this->name = $name;
-        $this->value = $value;
-    }
-
-    /**
      * Get configuration name
      *
      * @return string
@@ -52,5 +41,29 @@ class InputConfig implements InputConfigInterface
     public function getValue(): string
     {
         return $this->value;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return InputConfigInterface
+     */
+    public function setName(string $name): InputConfigInterface
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * Set value
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function setValue(string $value): InputConfigInterface
+    {
+        $this->value = $value;
+        return $this;
     }
 }

@@ -43,8 +43,14 @@ class FalconConfigRepositoryTest extends TestCase
 
     public function testSaveConfigurationWithInvalidKeys()
     {
-        $inputData[] = new InputConfig('test', 'testValue');
-        $inputData[] = new InputConfig('test2', 'testValue2');
+        $inputParam = new InputConfig();
+        $inputParam->setName('test')
+            ->setValue('testValue');
+        $inputData[] = $inputParam;
+        $inputParam = new InputConfig();
+        $inputParam->setName('test2')
+            ->setValue('testValue2');
+        $inputData[] = $inputParam;
 
         $result = $this->falconConfigRepository->saveConfiguration($inputData);
 
@@ -53,7 +59,10 @@ class FalconConfigRepositoryTest extends TestCase
 
     public function testSaveConfiguration()
     {
-        $inputData[] = new InputConfig('url', 'https://falcon.local/');
+        $inputParam = new InputConfig();
+        $inputParam->setName('url')
+            ->setValue('https://falcon.local/');
+        $inputData[] = $inputParam;
 
         $this->falconConfigurationMapper
             ->expects($this->any())

@@ -40,14 +40,18 @@ class ConfigurationMapper implements ConfigurationMapperInterface
      */
     public function processConfigurationInput(array $inputConfigList): array
     {
-        $aggregatedException = new CouldNotSaveException(__('Could not save the configuration, please double check provided configuration keys'));
+        $aggregatedException = new CouldNotSaveException(
+            __('Could not save the configuration, please double check provided configuration keys')
+        );
         $response = [];
         foreach ($inputConfigList as $inputConfig) {
             $magentoConfigPath = (string)$this->scopeConfig->getValue(
                 self::FALCON_CONFIGURATION_PREFIX . $inputConfig->getName()
             );
             if ($magentoConfigPath === '') {
-                $aggregatedException->addError(__('Given configuration key does not exist: %1', $inputConfig->getName()));
+                $aggregatedException->addError(
+                    __('Given configuration key does not exist: %1', $inputConfig->getName())
+                );
             }
 
             $response[$magentoConfigPath] = $inputConfig->getValue();

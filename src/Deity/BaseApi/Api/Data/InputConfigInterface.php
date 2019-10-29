@@ -26,4 +26,20 @@ interface InputConfigInterface
      * @return string
      */
     public function getValue(): string;
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return InputConfigInterface
+     */
+    public function setName(string $name): InputConfigInterface;
+
+    /**
+     * Set value
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function setValue(string $value): InputConfigInterface;
 }

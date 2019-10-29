@@ -42,16 +42,29 @@ class ConfigurationMapperTest extends TestCase
 
     public function testProcessConfigurationInputExceptionIsThrown()
     {
-        $inputData[] = new InputConfig('test', 'testValue');
-        $inputData[] = new InputConfig('test2', 'testValue2');
+
+        $inputParam = new InputConfig();
+        $inputParam->setName('test')
+            ->setValue('testValue');
+        $inputData[] = $inputParam;
+        $inputParam = new InputConfig();
+        $inputParam->setName('test2')
+            ->setValue('testValue2');
+        $inputData[] = $inputParam;
         $this->expectException(CouldNotSaveException::class);
         $this->falconConfigurationMapper->processConfigurationInput($inputData);
     }
 
     public function testMultipleErrorsGettingThrown()
     {
-        $inputData[] = new InputConfig('test', 'testValue');
-        $inputData[] = new InputConfig('test2', 'testValue2');
+        $inputParam = new InputConfig();
+        $inputParam->setName('test')
+            ->setValue('testValue');
+        $inputData[] = $inputParam;
+        $inputParam = new InputConfig();
+        $inputParam->setName('test2')
+            ->setValue('testValue2');
+        $inputData[] = $inputParam;
         try {
             $this->falconConfigurationMapper->processConfigurationInput($inputData);
         } catch (CouldNotSaveException $e) {
@@ -62,7 +75,10 @@ class ConfigurationMapperTest extends TestCase
 
     public function testProcessConfigurationInput()
     {
-        $inputData[] = new InputConfig('test', 'testValue');
+        $inputParam = new InputConfig();
+        $inputParam->setName('test')
+            ->setValue('testValue');
+        $inputData[] = $inputParam;
 
         $this->scopeConfig
             ->expects($this->any())
