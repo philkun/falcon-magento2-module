@@ -2,11 +2,8 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <falcon>
-            <general>
-                <api_version>5.2.0</api_version>
-            </general>
             <configuration>
-                <url>falcon/frontend/url</url>
+                <cache_url>falcon/cache/url</cache_url>
             </configuration>
         </falcon>
     </default>
