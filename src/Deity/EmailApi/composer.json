@@ -1,0 +1,20 @@
+{
+    "name": "deity/falcon-magento-email-api",
+    "description": "Deity Magento Email API module",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "require": {
+        "magento/framework": "*"
+    },
+    "license": [
+        "OSL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Deity\\EmailApi\\": ""
+        }
+    }
+}
