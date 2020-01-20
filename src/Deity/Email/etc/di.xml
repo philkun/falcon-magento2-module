@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Deity\EmailApi\Model\UrlReplacerInterface" type="Deity\Email\Model\UrlReplacer"/>
+    <type name="Magento\Email\Model\Template">
+        <plugin name="replace_magento_url_with_falcon_url" type="Deity\Email\Plugin\Model\Template"/>
+    </type>
+    <type name="Magento\Email\Model\Template\Filter">
+        <plugin name="replace_magento_url_with_falcon_url_in_filter" type="Deity\Email\Plugin\Model\Template\Filter"/>
+    </type>
+</config>

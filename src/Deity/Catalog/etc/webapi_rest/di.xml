@@ -24,4 +24,7 @@
             <argument name="productMapper" xsi:type="object">Deity\CatalogApi\Model\ProductListingMapperChain</argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Api\CategoryRepositoryInterface">
+        <plugin name="CategoryExtensionImageUrl" type="Deity\Catalog\Plugin\Model\CategoryRepository"/>
+    </type>
 </config>

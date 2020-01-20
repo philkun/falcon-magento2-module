@@ -54,7 +54,7 @@
     <type name="Deity\Catalog\Model\SearchCriteria\CollectionProcessor\FilterProcessor">
         <arguments>
             <argument name="customFilters" xsi:type="array">
-                <item name="cat" xsi:type="object">Magento\Catalog\Model\Api\SearchCriteria\CollectionProcessor\FilterProcessor\ProductCategoryFilter</item>
+                <item name="cat" xsi:type="object">Deity\Catalog\Model\SearchCriteria\CollectionProcessor\FilterProcessor\ProductCategoryFilter</item>
             </argument>
         </arguments>
     </type>

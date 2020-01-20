@@ -2,7 +2,7 @@
     "name": "deity/falcon-magento",
     "description": "Deity Magento API",
     "type": "magento2-module",
-    "version": "5.2.0",
+    "version": "5.3.0",
     "license": [
         "OSL-3.0"
     ],
@@ -23,6 +23,8 @@
             "src/Deity/ConfigurableProduct/registration.php",
             "src/Deity/Customer/registration.php",
             "src/Deity/CustomerApi/registration.php",
+            "src/Deity/Email/registration.php",
+            "src/Deity/EmailApi/registration.php",
             "src/Deity/FalconCache/registration.php",
             "src/Deity/FalconCacheApi/registration.php",
             "src/Deity/MagentoApi/registration.php",
@@ -55,6 +57,8 @@
             "Deity\\ConfigurableProduct\\": "src/Deity/ConfigurableProduct",
             "Deity\\Customer\\": "src/Deity/Customer",
             "Deity\\CustomerApi\\": "src/Deity/CustomerApi",
+            "Deity\\Email\\": "src/Deity/Email",
+            "Deity\\EmailApi\\": "src/Deity/EmailApi",
             "Deity\\FalconCache\\": "src/Deity/FalconCache",
             "Deity\\FalconCacheApi\\": "src/Deity/FalconCacheApi",
             "Deity\\MagentoApi\\": "src/Deity/MagentoApi",
@@ -73,6 +77,6 @@
         }
     },
     "require": {
-        "magento/framework": "^101.0.0 || ^102.0.0"
+        "magento/product-community-edition": "^^2.2.10 || ^^2.3.0"
     }
 }

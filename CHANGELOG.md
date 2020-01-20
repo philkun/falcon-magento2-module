@@ -1,6 +1,10 @@
 **Note:** This is a cumulative changelog that outlines all of the changes to all magento modules in Deity [src/Deity](./src/Deity) namespace.
 
 Versions marked with a number and date (e.g. v0.1.0 (2018-10-05)) are already released and available via packagist. Versions without a date are not released yet.
+## v5.3.0 (2020-01-20)
+ - Extended category url to Category REST API response
+ - Introduced email template postprocessor to replace all urls to magento with falcon urls [#130](https://github.com/deity-io/falcon-magento2-development/issues/130)
+ - Fixed the issue with category filter. For categories that were anchor.
 ## v5.2.0 (2019-10-29)
  -  Added new endpoint to preset Falcon Domain url and Falcon cache flush url  [#129](https://github.com/deity-io/falcon-magento2-development/issues/129)
 ## v5.1.3 (2019-10-21)

@@ -15,12 +15,13 @@ Install and configure magento shop to proceed with Deity Adaptor installation
 
 ### Prerequisites
 
-Deity Magento module is compatible with magento version 2.2+ CE and EE versions. 
-Full scale support of versions 2.0.* and 2.1.* is not our priority.
+Deity Magento module is compatible with magento version 2.3+ CE and EE versions. 
+Full scale support of versions before 2.3 is not our priority due to 
+However you can still use the module with Magento 2.2.10 (that one has support for php 7.2)
 However if you encounter an issue running with magento version lower than 2.2 feel free
 to open an issue or reach out to our support channel.
 ```
-magento >= 2.2
+magento >= 2.3
 ```
 
 ### Installing
@@ -28,7 +29,7 @@ magento >= 2.2
 Installing deity magento module is similar to installing any module for Magento 2 platform 
 
 ```
-composer require deity/falcon-magento ^5.2.0
+composer require deity/falcon-magento ^5.3.0
 bin/magento setup:upgrade
 ```
 When the module is setup, create one extra magento admin user for Deity Falcon to connect
