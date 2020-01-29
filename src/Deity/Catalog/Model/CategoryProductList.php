@@ -14,12 +14,14 @@ use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\CatalogInventory\Helper\Stock;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Registry;
 
 /**
  * Class CategoryProductList
  *
  * @package Deity\Catalog\Model
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CategoryProductList implements CategoryProductListInterface
 {
@@ -70,6 +72,7 @@ class CategoryProductList implements CategoryProductListInterface
     
     /**
      * CategoryProductList constructor.
+     *
      * @param ProductSearchResultsInterfaceFactory $productSearchResultFactory
      * @param ProductConvertInterface $convert
      * @param Stock $stockHelper
@@ -106,10 +109,6 @@ class CategoryProductList implements CategoryProductListInterface
         int $categoryId,
         \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria = null
     ): ProductSearchResultsInterface {
-        
-        $this->catalogLayer->setCurrentCategory($categoryId);
-
-        $this->registry->register('current_category', $this->catalogLayer->getCurrentCategory());
 
         if ($searchCriteria === null) {
             $searchCriteria = $this->searchBuilder
@@ -119,6 +118,8 @@ class CategoryProductList implements CategoryProductListInterface
         } elseif ($searchCriteria->getPageSize() == 0) {
             $searchCriteria->setCurrentPage(1)->setPageSize(self::FALCON_DEFAULT_PAGE_SIZE);
         }
+
+        $this->presetCategoryContext($categoryId, $searchCriteria);
 
         $this->collectionProcessor->process($searchCriteria, $this->getProductCollection());
 
@@ -142,6 +143,29 @@ class CategoryProductList implements CategoryProductListInterface
         $productSearchResult->setTotalCount($this->getProductCollection()->getSize());
 
         return $productSearchResult;
+    }
+
+    /**
+     * Check if category filter is applied, if so load the context for filter category
+     *
+     * @param int $categoryId
+     * @param SearchCriteriaInterface $searchCriteria
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    private function presetCategoryContext(int $categoryId, SearchCriteriaInterface $searchCriteria)
+    {
+        foreach ($searchCriteria->getFilterGroups() as $group) {
+            foreach ($group->getFilters() as $filter) {
+                if ($filter->getField() === 'cat') {
+                    $categoryId = $filter->getValue();
+                    break 2;
+                }
+            }
+        }
+
+        $this->catalogLayer->setCurrentCategory($categoryId);
+
+        $this->registry->register('current_category', $this->catalogLayer->getCurrentCategory());
     }
 
     /**
