@@ -30,7 +30,7 @@ class ConfigApiTest extends WebapiAbstract
         $storeManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create(StoreManagerInterface::class);
 
-        $this->assertEquals('5.2.0', $configData[ConfigInterface::VERSION_KEY], 'Module version should match');
+        $this->assertEquals('5.3.2', $configData[ConfigInterface::VERSION_KEY], 'Module version should match');
         $this->assertEquals(
             $storeManager->getDefaultStoreView()->getCode(),
             $configData[ConfigInterface::STORE_CODE_KEY],

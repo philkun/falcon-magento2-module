@@ -77,10 +77,20 @@ class Category implements FilterDataRendererInterface
                     FilterOptionInterface::LABEL => (string)$magentoOption->getData('label'),
                     FilterOptionInterface::VALUE => $magentoOption->getValueString(),
                     FilterOptionInterface::COUNT => (int)$magentoOption->getData('count'),
-                    FilterOptionInterface::IS_SELECTED => in_array(
-                        (string)$magentoOption->getValueString(),
-                        $selectedValues
-                    )
+                    FilterOptionInterface::IS_SELECTED => false
+                ]
+            );
+            $filterObject->addOption($filterOption);
+        }
+
+        if (!empty($selectedValues)) {
+            $currentCategory = $layer->getCurrentCategory();
+            $filterOption =$this->filterOptionFactory->create(
+                [
+                    FilterOptionInterface::LABEL => $currentCategory->getName(),
+                    FilterOptionInterface::VALUE => $currentCategory->getId(),
+                    FilterOptionInterface::COUNT => $layer->getProductCollection()->getSize(),
+                    FilterOptionInterface::IS_SELECTED => true
                 ]
             );
             $filterObject->addOption($filterOption);

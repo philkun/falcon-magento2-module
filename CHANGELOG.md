@@ -1,6 +1,8 @@
 **Note:** This is a cumulative changelog that outlines all of the changes to all magento modules in Deity [src/Deity](./src/Deity) namespace.
 
 Versions marked with a number and date (e.g. v0.1.0 (2018-10-05)) are already released and available via packagist. Versions without a date are not released yet.
+## v5.3.2 (2020-01-29)
+ - Fixed the issue with empty category filter when category filter is selected.
 ## v5.3.0 (2020-01-20)
  - Extended category url to Category REST API response
  - Introduced email template postprocessor to replace all urls to magento with falcon urls [#130](https://github.com/deity-io/falcon-magento2-development/issues/130)
