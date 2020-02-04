@@ -91,18 +91,22 @@ class ItemConverter
             $attributes[$attribute] = $value;
         }
 
-        $extensionAttributes = $this->factory->create(
-            [
-                'data' => [
-                    'thumbnail_url' => $this->imageProvider->getProductImageTypeUrl(
-                        $product,
-                        'deity_checkout_cart_thumbnail'
-                    ),
-                    'url_key'       => $urlKey,
-                    'available_qty' => $stockItem->getQty()
-                ] + $attributes
-            ]
+        $extensionAttributes =  $result->getExtensionAttributes();
+
+        $extensionAttributes->setData(
+            'thumbnail_url', $this->imageProvider->getProductImageTypeUrl($product, 'deity_checkout_cart_thumbnail')
         );
+        $extensionAttributes->setData(
+            'url_key', $urlKey
+        );
+        $extensionAttributes->setData(
+            'available_qty', $stockItem->getQty()
+        );
+
+        $extensionAttributes->setData(
+            'custom_attributes', $attributes
+        );
+
         $result->setExtensionAttributes($extensionAttributes);
 
         return $result;
